@@ -10,4 +10,4 @@ with open('with_ssafy.txt', 'r') as f :
 with open('with_ssafy.txt','r') as f :
     lines = f.readlines()
     for line in lines :
-        print(line.strip()) #처음과 끝의 개행이나 공백을 지워주는 함수
+        print(line.strip()) #처음과 끝의 개행이나 공백을 지워주는 함수 (print 자체에 개행문자)

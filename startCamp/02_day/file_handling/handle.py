@@ -9,4 +9,3 @@ for filename in filenames :
     
     if extension == '.txt' :
         os.rename(filename, filename.replace('SAMSUNG_SAMSUNG_','SSAFY_')) # 첫번째 인자로 넘어간 이름을, 두번째 인자로 넘어간 이름으로 바꾼다.
-     
