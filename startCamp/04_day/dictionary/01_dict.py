@@ -3,19 +3,21 @@ lunch1 = {
 }
 lunch2 = dict(중국집='02')
 
-print(lunch1)
-print(lunch2)
-
 lunch1['분식집'] = '031'
 
-idol = {
-    'bts' : { 
-        '지민' : 24,
-        'RM' : 25
+a = {
+	'aa' : { 
+		'aa11' : 'aaa11',
+    	'aa12' : 'aaa12'   
+	},
+    'bb' : {
+        'bb21' : 'bbb21',
+        'bb22' : 'bbb22'
     }
 }
-print(idol)
-print(idol['bts']['RM'])
+
+c = a.items()
+print(c)
 
 print('=========================================')
 for key in lunch1:
@@ -26,5 +28,5 @@ for key in lunch1.keys():
     print(key)
 # .items() => kye, value 가져오기
 for key, value in lunch1.items():
-    print(lunch1.items)
+    print(lunch1.items())
     print(key, value)
