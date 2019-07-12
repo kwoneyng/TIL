@@ -55,29 +55,40 @@ def lotto_input():
 
 @app.route('/lotto_result')
 def lotto_result():
+    #사용자 입력값 받기
     lotto_round = request.args.get('round')
     lotto_numbers = list(map(int,request.args.get('numbers').split()))
+    #해당 회차의 정보 받아오기
     url = f'https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo={lotto_round}'
     response = requests.get(url)
     lotto_info = response.json() # json 타입의 파일을 python dictionary로 parsing 해준다
     print(lotto_numbers)
     abso = []
     count = 0
-    abso.append(lotto_info['drwtNo1'])
-    abso.append(lotto_info['drwtNo2'])
-    abso.append(lotto_info['drwtNo3'])
-    abso.append(lotto_info['drwtNo4'])
-    abso.append(lotto_info['drwtNo5'])
-    abso.append(lotto_info['drwtNo6'])
+    for i in range(1,7):
+        abso.append(lotto_info[f'drwtNo{i}'])
     bnus_num = lotto_info['bnusNo']
     print(abso)
     print(lotto_round)
     for i in lotto_numbers :
         if i in abso :
             count = count + 1
+    
+    lotto_result = 0
+    if len(lotto_numbers) == 6 :
+        if count == 6 :
+            lotto_result = 1
+        elif count == 5 :
+            if bnus_num in lotto_numbers :
+                lotto_result = 2
+            lotto_result = 3
+        elif count == 4 :
+            lotto_result = 4
+        elif count == 3 :
+            lotto_result = 5
 
-
-    return f'{count}개 맞췄습니다'
+    
+    return render_template('lotto_result.html', abso=abso, lotto_round=lotto_round, lotto_numbers=lotto_numbers, bnus_num=bnus_num, lotto_result=lotto_result)
 
 
 

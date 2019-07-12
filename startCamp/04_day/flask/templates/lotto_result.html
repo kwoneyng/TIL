@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>로또또 로또!!</h1>
+    기입하신 번호 : 
+    {% for i in lotto_numbers %}
+        {{i}} 
+    {% endfor %}
+    <br>
+    {{lotto_round}}회차 당첨번호 :
+    {% for i in abso %}
+        {{i}} 
+    {% endfor %}
+      보너스 : {{bnus_num}}번
+    <br>
+    {{lotto_result}}등이에요!
+</body>
+</html>

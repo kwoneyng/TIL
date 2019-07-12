@@ -108,8 +108,7 @@ for i in city :
     for j in city[i] :
         if j > max :
             max = j
-print(min)
-print(max)  
+ 
 for i in city :
     if min in city[i] :
         n_p = i
