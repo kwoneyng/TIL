@@ -1,12 +1,13 @@
-a = '364353'
-count = 0
-if '3' in a :
-    for i in a :
-        if i == '3' :
-            count += 1
-print(count)
+a = 5, 2, 3
 
-for i in a :
-    print(i)
+b = set([1, 2, 3, 4, 5])
 
-print(a)
+c = list(b)
+
+if 1 and 2 and 3 in b :
+    print('그렇다')
+else :
+    print('틀렸다')
+print(b)
+print(c)
+print(a in c)
