@@ -11,7 +11,7 @@ for i in range(test_num):
     for k in range(test_case):
         sw_X = 1
         N_X = 0
-        for z in range(test_case - 1): #0,3
+        for z in range(test_case - 1):
             if loc_X[k][z] == 1 and loc_X[k][z+1] == 1 :
                 sw_X +=1
             else :
@@ -22,8 +22,6 @@ for i in range(test_num):
                         N_X += 1
                 else :
                     N_X += 1
-            # elif sw_X > key_size :
-            #     N_X = 0 
         count_X.append(N_X)
     for b in range(test_case) :
         sw_Y = 1
@@ -39,7 +37,5 @@ for i in range(test_num):
                         N_Y += 1
                 else :
                     N_Y += 1
-            # elif sw_Y > key_size :
-            #     N_Y = 0
         count_Y.append(N_Y)
     print(f'#{i+1} {sum(count_X)+sum(count_Y)}')
