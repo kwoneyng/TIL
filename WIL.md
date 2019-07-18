@@ -139,7 +139,38 @@ for i in range(int(input())):
     	print(f'?[k]', end=' ')  #for문에 따라 ?리스트의 0번 인덱스 부터 끝까지 한칸씩 띄고 작성
 ```
 
+```python
+#remove, pop
+?.remove(??): ??값인 것을 ?list에서 없애준다
+?.pop(??): ??인덱스에 있는 값을 반환하고 list에서 없앤다. 값을 반환하는것은 다른 변수에 저장이 가능하다는 뜻이다.
+```
 
+```python
+# .sort(), sorted()
+?.sort() : ?리스트를 sort 시키고 None을 리턴한다  #원본이 바뀜
+sorted(?) : ?리스트를 sort한 리스트를 리턴한다  #원본은 그대로
+```
+
+```python
+# .reverse(), reversed()
+?.reverse() : ?리스트 원본을 뒤집고 None을 리턴한다
+reversed(?) : ?리스트를 뒤집은 리스트를 리턴한다  #원본 그대로
+```
+
+```python
+#list 한번에 만들기
+cubic_list = [number ** 3 for number in numbers]  #[넣을 수 for문 if문(True이면)]
+even_list = [number for number in numbers if number % 2 == 0]
+pairs = [(boy, girl) for girl in girls for boy in boys]  #이중 for문도 가능하다
+```
+
+```python
+#List comprehension 좋은예
+words = 'Life is too short, you need python!'
+vowels = 'aeiou'
+re = [i for i in words if i not in vowels]
+print(''.join(re))
+```
 
 
 
