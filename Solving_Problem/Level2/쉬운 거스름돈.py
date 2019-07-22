@@ -1,7 +1,7 @@
 test_num = int(input())
 
 for i in range(test_num):
-    test_case = int(input())
+    test_case = int(input())  # 횟수 및 변수 초기화
     om = 0
     im = 0
     oc = 0
@@ -10,7 +10,7 @@ for i in range(test_num):
     ib = 0
     ot = 0
     ten = 0
-    while test_case >= 10 :
+    while test_case >= 10 :  # 큰수부터 차례대로 쪼개는 과정입니다
         if test_case // 50000 > 0 :
             om = test_case // 50000
             test_case = test_case % 50000
