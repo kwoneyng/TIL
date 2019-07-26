@@ -13,7 +13,7 @@ for i in range(test_num):
         score_set = list(map(int, input().split()))
         dic_stu[j] = round(0.35*score_set[0]+0.45*score_set[1]+0.2*score_set[2],2)  #가중 평균을 표현하고 dict로 정리했습니다.
     sorted_dic = sorted(dic_stu.items(), key=operator.itemgetter(1),reverse=True)  # 점수를 기준으로 정렬을 실행하고 내림차순으로 바꿔줬습니다.
-    for j in range(len(sorted_dic)):  # 학점을 10%씩 끊어서 배분하는 과정입니다. 더 좋은 방법이 있을겁니다.
+    for j in range(len(sorted_dic)):  # 학점을 10%씩 끊어서 배분하는 과정입니다. 더 좋은 방법이 있을것 같은데 슬랙에 올려주시면 감사하겠어요
         if j < len(sorted_dic)/10 :
             dic_rank.append([sorted_dic[j][0]+1, 'A+'])
         elif j < len(sorted_dic)*2/10:
