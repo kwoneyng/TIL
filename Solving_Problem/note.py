@@ -1,27 +1,38 @@
+import time
+
 for T in range(int(input())):
-    K, N, M = map(int, input().split())
-    M_s = list(map(int, input().split()))
-    M_s.append(N)
-    stop = 0
-    K_re = K
-    cnt = 0
-    for i in range(N):
-        print('K = {}'.format(K))
-        if stop < len(M_s):
-            if i == M_s[stop]:
-                stop += 1
-                if K < M_s[stop]-i:
-                    print('-------------')
-                    print(i)
-                    cnt += 1
-                    K = K_re-1
-                else :
-                    K -= 1    
-            else :
-                K -= 1
-            if K < 0 :
-                cnt = 0
-                break
+    print('-------------')
+    P, Pa, Pb = list(map(int, input().split()))
+    l = 1
+    r = P
+    m = 0
+    n = 0
+    for i in range(1, P):
+        time.sleep(0.5)
+        ca = int((l+r)/2)
+        print(ca)
+        if ca == Pa :
+            n= i
+            break
         else :
-            K -= 1
-    print('#{0} {1}'.format(T+1, cnt))
+            l = ca
+    for j in range(1, P):
+        cb = int((l+r)/2)
+        if cb == Pb :
+            m = j
+            break
+        else :
+            r = cb
+    if n == 0 :
+        n = P
+    if m == 0 :
+        m = P
+
+    if n < m :
+        print('A')
+    elif n > m :
+        print('B')
+    else :
+        print('0')
+    print(n, m)
+
