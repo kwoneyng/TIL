@@ -1,3 +1,9 @@
+def mysum(ls):
+    rs = 0
+    for i in ls:
+        rs += i
+    return rs
+
 for T in range(10):
     t_no = int(input())
     bd = []
@@ -5,10 +11,10 @@ for T in range(10):
     for i in range(100):
         bd.append(list(map(int, input().split())))
     for i in bd :
-        sum_set.append(sum(i))
+        sum_set.append(mysum(i))
     bd_ro = list(map(list, zip(*bd)))
     for j in bd_ro :
-        sum_set.append(sum(j))
+        sum_set.append(mysum(j))
     su, su_ro = (0, 0)
     for k in range(100):
         su += bd[k][k]

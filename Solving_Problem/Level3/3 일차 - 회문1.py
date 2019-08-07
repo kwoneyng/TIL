@@ -1,7 +1,7 @@
 # 3일차 - 회문 1
 import math
 
-for i in range(10):
+for i in range(1):
     t_no = int(input())
     t_var = math.floor(t_no/2)  # 회문의 길이를 반으로 나누어 앞뒤의 값이 같은지 확인하기 위해
     board = []
@@ -21,9 +21,12 @@ for i in range(10):
                     if pal[z+t]==pal[z-t+t_no-1]:  # abcd -> (a, d) (b, c) 비교
                         ck_s += 1
             if ck_s == t_var:
+                print(f'row : {k}')
+                print(pal[z:z+4])
                 chk += 1
     # board_z = list(zip(board[0], board[1], board[2], board[3], board[4], board[5], board[6], board[7]))
     board_z = list(map(list, zip(*board)))  # 세로줄을 뽑아와서 판 재구현
+    print('---------------------------------------------------')
     for a in range(8):
         pal_z = board_z[a]
         for b in range(9-t_no):
@@ -31,12 +34,15 @@ for i in range(10):
             if t_no % 2 == 1:
                 for c in range(t_var) :
                     if pal_z[b+c]==pal_z[b-c+t_no-1]:
+                        print()
                         ckz_s += 1
             else :
                 for c in range(t_var) :
                     if pal_z[b+c]==pal_z[b-c+t_no-1]:
                         ckz_s += 1
             if ckz_s == t_var:
+                print(f'row : {a}')
+                print(pal_z[b:b+4])
                 chk += 1
     
     
