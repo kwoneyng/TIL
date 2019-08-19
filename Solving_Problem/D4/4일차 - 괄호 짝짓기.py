@@ -40,4 +40,3 @@ for T in range(10):
         rs = 1
     print(f'#{T+1} ',end='')
     print(rs)
-                 
