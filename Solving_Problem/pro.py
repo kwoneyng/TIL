@@ -1,23 +1,31 @@
-ls = [i for i in range(1,13)]
-
-for T in range(int(input())):
-    n, k = list(map(int, input().split()))
-    su_set = []
-    rs_set = []
-    cnt = 0
-    for i in range(1<<len(ls)):
-        su = []
-        for j in range(len(ls)):
-            if i & (1<<j):
-                su += [ls[j]]
-        su_set.append(su)
-    # print(su_set)
-    for l in su_set:
-        if len(l) == n :
-            rs_set.append(l)
-    # print(rs_set)
-    for g in rs_set:
-        if sum(g) == k:
-            cnt += 1
-    print(f'#{T+1} {cnt}')
-    
+no = int(input())
+light = list(map(int, input().split()))
+std = int(input())
+std_set = []
+for i in range(std):
+    std_set.append(list(map(int, input().split())))
+for i in std_set:
+    if i[0] == 1:
+        for j in range(1, len(light)):
+            a = i[1]*j - 1
+            if a >= 0 and a < len(light):
+                if light[a] == 0:
+                    light[a] = 1
+                else :
+                    light[a] = 0
+    else :
+        for j in range(len(light)):
+            c = i[1]-j-1
+            d = i[1]+j-1
+            if c >= 0 and d < len(light):
+                if light[c] == light[d]:
+                    if light[c] == 0:
+                        light[c] = 1
+                        light[d] = 1
+                    else :
+                        light[c] = 0
+                        light[d] = 0
+                else :
+                    break
+for i in range(0, len(light), 20):
+    print(' '.join(map(str, light[i:i+20])))

@@ -1,7 +1,4 @@
-import time
-
 def fnr(ls, end=0):
-    # time.sleep(0.1)
     if end == 99:
         return 1
     #보니까 0으로 시작하는게 1개가 아님
