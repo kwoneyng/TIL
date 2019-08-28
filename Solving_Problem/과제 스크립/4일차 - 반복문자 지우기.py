@@ -11,4 +11,3 @@ for T in range(int(input())):
             break
     print(f'#{T+1} ',end='')
     print(len(s))
-                
