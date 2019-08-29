@@ -1,9 +1,4 @@
 def go():
-    su = 0
-    for i in bd:
-        su += sum(i)
-    if su > 50000:
-        return 2
     rs = 0
     for x in range(n):
         for y in range(m):
