@@ -6,13 +6,13 @@ for row in range(r):
 no = 0
 sr, sc = [r, 0]
 fin = True
-while fin:
+while fin and no < c * r:
     for i in range(r+2):
         if sr - 1 >= 0 :
             if bd[sr-1][sc] == 0:
                 no += 1
                 if no == point:
-                    print(sc+1, r-sr-1)
+                    print(sc+1, abs(r-sr-1))
                     fin = False
                     break
                 bd[sr-1][sc] = no
@@ -28,7 +28,7 @@ while fin:
             if bd[sr][sc+1] == 0:
                 no += 1
                 if no == point:
-                    print(sc+2, r-sr)
+                    print(sc+2, abs(r-sr))
                     fin = False
                     break
                 bd[sr][sc+1] = no
@@ -44,7 +44,7 @@ while fin:
             if bd[sr+1][sc] == 0:
                 no += 1
                 if no == point:
-                    print(sc+1, r-sr+1)
+                    print(sc+1, abs(r-sr+1))
                     fin = False
                     break
                 bd[sr+1][sc] = no
@@ -60,7 +60,7 @@ while fin:
             if bd[sr][sc-1] == 0:
                 no += 1
                 if no == point:
-                    print(sc, r-sr)
+                    print(sc, abs(r-sr))
                     fin = False
                     break
                 bd[sr][sc-1] = no
@@ -69,3 +69,5 @@ while fin:
                 break
         else:
             break
+if fin :
+    print(0)
