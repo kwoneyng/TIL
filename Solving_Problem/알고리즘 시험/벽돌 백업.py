@@ -1,63 +1,94 @@
 from pprint import pprint
 
-def bomb(y):
+def bomb(y, ls):
     global h
     for i in range(h):
-        if vis[i][y] == 0:
-            vis[i][y] = 1
-            if bd[i][y] >= 1:
-                cross(i, y)
+        if ls[i][y] > 0:
+            return i, y, ls
+    return 0
+    
+
+
+def cross(rs):
+    if rs == 0:
+        return 0
+    global h, w
+    x, y, ls = rs
+    no = abs(ls[x][y])
+    if no == 1:
+        ls[x][y] = 0
+    else:
+        ls[x][y] = 0
+        for i in range(1, no):
+            for dx, dy in near:
+                if 0 <= x+dx*i< h and 0 <= y+dy*i < w:
+                    if ls[x+dx*i][y+dy*i] > 1:
+                        ls[x+dx*i][y+dy*i] *= -1
+                        abc = (x+dx*i, y+dy*i, ls)
+                        cross(abc)
+                    if ls[x+dx*i][y+dy*i] > 0:
+                        ls[x+dx*i][y+dy*i] = 0
+
+    return ls
+
+
+def down(ls):
+    if ls == 0 :
+        return 0
+    global h, w
+    rs = []
+    for y in range(w):
+        for x in range(h-1,-1,-1):
+            if ls[x][y] > 0:
+                rs.append(ls[x][y])
+                ls[x][y] = 0
+        for x in range(h-1,-1,-1):
+            if len(rs) == 0:
                 break
+            ls[x][y] = rs.pop(0)
+    return ls
 
 
-def cross(x, y):
-    global cnt, h, w
-    a = bd[x][y]
-    bd[x][y] = 0
-    cn = -1
-    pprint(bd)
-    while a >= 1:
-        a -= 1
-        cn += 1
-        for dx, dy in near:
-            if 0 <= x+dx*cn < h and 0 <= y+dy*cn < w:
-                if vis[x+dx*cn][y+dy*cn] == 0:
-                    vis[x+dx*cn][y+dy*cn] = 1
-                    if bd[x+dx*cn][y+dy*cn] > 1:
-                        cross(x+dx*cn, y+dy*cn)
-                    if bd[x+dx*cn][y+dy*cn] != 0:
-                        bd[x+dx*cn][y+dy*cn] = 0
-                        cnt += 1
-                        q.append((x+dx, y+dy))
 
-
-def start():
-    global h
-    q.sort(key=lambda x:x[0], reverse=True)
-    for i in range(len(q)):
-        x, y = q[i]
-        if x - 1 >= 0:
-            if bd[x-1][y] > 0:
-                temp, bd[x-1][y] = bd[x-1][y], 0
-                while True :
-                    x += 1
-                    if bd[x][y] != 0:
-                        bd[x-1][y] = temp
-                        break
-                    elif x == h-1:
-                        bd[x][y] = temp
-
-
-for T in range(int(input())):
+for T in range(1, int(input())+1):
     n, w, h = list(map(int, input().split()))
     bd = []
-    q = []
-    vis = []
-    cnt = 0 # 위치 변경 필요
-    near = [(-1, 0), (0, 1), (1, 0), (0, -1)]
     for i in range(h):
         bd.append(list(map(int, input().split())))
-        vis.append([0 for i in range(w)])
-    bomb(2)
-    bomb(2)
-    pprint(bd)
+    que = []
+    q = []
+    nxt_c = []
+    rs_set = []
+    near = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+    que.append([0, bd])
+    while que:
+        chk = que[0]
+        dept = chk[0]
+        if dept == n:
+            break
+        ck_bd = chk[1]
+        que.pop(0)
+        for y in range(w):
+            rs = 0
+            for x in range(h):
+                rs += ck_bd[x][y]
+            if rs == 0:
+                continue
+            use_bd = [i[:] for i in ck_bd]
+            a = down(cross(bomb(y, use_bd)))
+            if a != 0:
+                que.append([dept+1, a])
+            else :
+                que.append([dept+1, 0])
+    for i, ls in que:
+        if ls == 0:
+            continue
+        rs = 0
+        for i in ls:
+            rs += i.count(0)
+        rs_set.append(w*h - rs)
+    if rs_set == []:
+        rs_set = [0, 0]
+    print('#{} '.format(T),end='')
+    print(min(rs_set))
+    
