@@ -36,7 +36,7 @@ for T in range(int(input())):
     #     rs_set.append(su)    
 
     # for sa in rs_set:
-    sa = [1,1,0,0,0,1,1]
+    sa = [0, 0, 0, 0, 0, 0, 0, 1]
     people = [i[:] for i in people_o]
     for i in range(len(people)):
         x, y = people.pop(0)
@@ -48,8 +48,6 @@ for T in range(int(input())):
     minute = 0
     while True:
         minute += 1
-        if mn_mn <= minute :
-            break
         gone = []
 
         for i in range(len(people)):
@@ -132,8 +130,6 @@ for T in range(int(input())):
 
 
         if not people and not stair1 and not stair2 and not p_stair1 and not p_stair2 and not arrive1 and not arrive2:
-            if minute < mn_mn:
-                mn_mn = minute
-                result.append(minute)
+            result.append(minute)
             break
     print('#{}'.format(T+1),min(result))

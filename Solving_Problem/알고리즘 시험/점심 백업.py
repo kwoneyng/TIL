@@ -128,8 +128,8 @@ for T in range(int(input())):
 
 
             if not people and not stair1 and not stair2 and not p_stair1 and not p_stair2 and not arrive1 and not arrive2:
-                if minute < mn_mn:
-                    mn_mn = minute
-                    result.append(minute)
+                result.append(minute)
+                print(sa)
+                print(minute)
                 break
-    print('#{}'.format(T+1),min(result))
+    # print('#{}'.format(T+1),min(result))
