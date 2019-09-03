@@ -5,37 +5,49 @@ def bomb(y, ls):
     for i in range(h):
         if ls[i][y] > 0:
             return i, y, ls
+    return 0
+    
 
 
-def cross(rs, q):
+def cross(rs):
+    if rs == 0:
+        return 0
     global h, w
     x, y, ls = rs
     no = abs(ls[x][y])
-    for i in range(no):
-        for dx, dy in near:
-            if 0 <= x+dx*i< h and 0 <= y+dy*i < w:
-                if ls[x+dx*i][y+dy*i] > 1:
-                    ls[x+dx*i][y+dy*i] *= -1
-                    abc = (x+dx*i, y+dy*i, ls)
-                    cross(abc,q)
-                if ls[x+dx*i][y+dy*i] != 0:
-                    ls[x+dx*i][y+dy*i] = 0
-                    q.append((x+dx*i, y+dy*i))
-    q.sort(key=lambda x:x[0],reverse=True)
-    print(q, len(q))
-    while q:
-        ck_x, ck_y = q.pop(0)
-        if ck_x - 1 >= 0:
-            if ls[ck_x-1][ck_y] > 0:
-                temp, ls[ck_x-1][ck_y] = ls[ck_x-1][ck_y], 0
-                for x_p in range(ck_x, h):
-                    if ls[x_p][ck_y] > 0:
-                        ls[x_p-1][ck_y] = temp
-                        break
-                    elif x_p == h-1:
-                        ls[x_p][ck_y] = temp
-    # pprint(ls)
+    if no == 1:
+        ls[x][y] = 0
+    else:
+        ls[x][y] = 0
+        for i in range(1, no):
+            for dx, dy in near:
+                if 0 <= x+dx*i< h and 0 <= y+dy*i < w:
+                    if ls[x+dx*i][y+dy*i] > 1:
+                        ls[x+dx*i][y+dy*i] *= -1
+                        abc = (x+dx*i, y+dy*i, ls)
+                        cross(abc)
+                    if ls[x+dx*i][y+dy*i] > 0:
+                        ls[x+dx*i][y+dy*i] = 0
+
     return ls
+
+
+def down(ls):
+    if ls == 0 :
+        return 0
+    global h, w
+    rs = []
+    for y in range(w):
+        for x in range(h-1,-1,-1):
+            if ls[x][y] > 0:
+                rs.append(ls[x][y])
+                ls[x][y] = 0
+        for x in range(h-1,-1,-1):
+            if len(rs) == 0:
+                break
+            ls[x][y] = rs.pop(0)
+    return ls
+
 
 
 for T in range(1, int(input())+1):
@@ -49,28 +61,34 @@ for T in range(1, int(input())+1):
     rs_set = []
     near = [(-1, 0), (0, 1), (1, 0), (0, -1)]
     que.append([0, bd])
-    # while que:
-    #     chk = que[0]
-    #     dept = chk[0]
-    #     if dept == n:
-    #         break
-    #     ck_bd = chk[1]
-    #     que.pop(0)
-    #     for y in range(w):
-    #         rs = 0
-    #         for x in range(h):
-    #             rs += ck_bd[x][y]
-    #         if rs == 0:
-    #             continue
-    #         use_bd = [i[:] for i in ck_bd]
-    #         que.append([dept+1, cross(bomb(y, use_bd))])
-    # for i, ls in que:
-    #     rs = 0
-    #     for i in ls:
-    #         rs += i.count(0)
-    #     rs_set.append(w*h - rs)
-    # pprint(que)
-    # print(min(rs_set))
-    pprint(cross((2,2,cross((1,2,bd),q)),q))
-    pprint(cross((2,2,cross((1,2,bd),q)),q))
+    while que:
+        chk = que[0]
+        dept = chk[0]
+        if dept == n:
+            break
+        ck_bd = chk[1]
+        que.pop(0)
+        for y in range(w):
+            rs = 0
+            for x in range(h):
+                rs += ck_bd[x][y]
+            if rs == 0:
+                continue
+            use_bd = [i[:] for i in ck_bd]
+            a = down(cross(bomb(y, use_bd)))
+            if a != 0:
+                que.append([dept+1, a])
+            else :
+                que.append([dept+1, 0])
+    for i, ls in que:
+        if ls == 0:
+            continue
+        rs = 0
+        for i in ls:
+            rs += i.count(0)
+        rs_set.append(w*h - rs)
+    if rs_set == []:
+        rs_set = [0, 0]
+    print('#{} '.format(T),end='')
+    print(min(rs_set))
     
