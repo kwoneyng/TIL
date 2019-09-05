@@ -8,7 +8,6 @@ def bomb(y, ls):
     return 0
     
 
-
 def cross(rs):
     if rs == 0:
         return 0

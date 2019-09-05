@@ -78,14 +78,6 @@ def move(ls):
     dx, dy = dxy[d]
     X = x+dx
     Y = y+dy
-    while 0 <= X < n and 0 <= Y < n:
-        if [X, Y] == start[:2]:
-            return [1]
-        elif bd[X][Y] == 0:
-            X += dx
-            Y += dy
-        else :
-            break
     nls = [X, Y, d%4]
     return nls
     
@@ -109,17 +101,15 @@ for T in range(int(input())):
     while q:
         score = 0
         start = q.pop(0)
-        # start = [0, 2 ,3]
+        # start = [0,4,1]
         use_ls = move(start)
         while True:
-            if len(use_ls) == 1:
-                break
-            elif 0 <= use_ls[0] < n and 0 <= use_ls[1] < n:
+            if 0 <= use_ls[0] < n and 0 <= use_ls[1] < n:
                 use_ls = block(use_ls)
                 if len(use_ls) == 1:
                     break  # 웜홀, 블랙홀 해줘야함
             else :
                 use_ls = wall(use_ls)
         rs_set.append(score)
-        # print(score, start)
+        print(score, start)
     print('#{}'.format(T+1), max(rs_set))
