@@ -13,15 +13,17 @@ for T in range(int(input())):
     charging = [[] for i in range(a)]
     ap_set = []
     for i in range(a):
-        vis = [[0]*m for i in range(m)]
+        vis = [[0]*20 for i in range(20)]
         y, x, d, ap = list(map(int, input().split()))
+        y -= 1
+        x -= 1
         ap_set.append(ap)
         q.append([x, y, d])
         while q:
             x, y, d = q.pop(0)
             charging[i].append([x, y])
             vis[x][y] = 1
-            for dx, dy in near:
+            for dy, dx in near:
                 xi = x+dx
                 yi = y+dy
                 if 0 <= xi < m and 0 <= yi < m:
@@ -29,8 +31,7 @@ for T in range(int(input())):
                         vis[xi][yi] = 1
                         if d > 0 :
                             q.append([xi, yi, d-1])
-
-    for time in range(m):
+    for time in range(m+1):
         stay_ap = [[] for i in range(2)]
         # 충전 되니?
         for i in range(a):
@@ -40,23 +41,24 @@ for T in range(int(input())):
                 stay_ap[1].append(i)
         for i in range(2):
             if len(stay_ap[i]) == 0:
-                stay_ap[i].append(3)
+                stay_ap[i].append(100)
         
         # 뭘로 충전할래?
         su = []
         for i in stay_ap[0]:
             for j in stay_ap[1]:
                 su.append([i, j])
-        cha = 0
         mx = 0
         for i in su:
+            cha = 0
             for j in range(a):
                 if j in i:
                     cha += ap_set[j]
                     if cha > mx :
                         mx = cha
         volt += mx
-
+        if time == m :
+            break
         # 움직이자
         step_a = walk_A
         step_b = walk_B
