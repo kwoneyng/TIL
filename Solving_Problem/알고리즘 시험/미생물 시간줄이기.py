@@ -1,65 +1,56 @@
-def move(ls):
-    global n
-    xy, b, d = ls
-    x, y = xy
-    if d == 1:
-        x -= 1
-        if x == 0:
-            b //= 2
-            d = 2
-    if d == 2 :
-        x += 1
-        if x == n-1:
-            b //= 2
-            d = 1
-    if d == 3 :
-        y -= 1
-        if y == 0 :
-            b //= 2
-            d = 4
-    if d == 4 :
-        y += 1
-        if y == n-1 :
-            b //= 2
-            d = 3
-    rs = [[x,y], b, d]
-    if [x, y] not in q:
-        q.append([x, y])
-        fin_ls.append(rs)
-    elif [x, y] not in col :
-        col.append([x, y])
-        fin_ls.append(rs)
-
-
-def merge(ls):
-    ls1 = []
-    for i in fin_ls:
-        for j in ls:
-            if j not in i:
-                s_ls.append(i)
-            else :
-                ls1.append(i)
-    ls1.sort(key=lambda x:x[1], reverse=True)
-    for i in range(len(ls1)-1):
-        ls1[0][1] += ls1.pop()[1]
-    s_ls.append(ls1[0])
-
+di = [(-1,0), (1,0), (0,-1), (0,1)]
 
 for T in range(int(input())):
-    n, m, k = list(map(int, input().split()))
+    n,m,k = map(int, input().split())
+    bd = [[[] for i in range(n)] for i in range(n)]
     q = []
-    s_ls = []
-    col = []
+    merge = []
+    rs_fin = 0
     for i in range(k):
-        x, y, b, d = list(map(int, input().split()))
-        q.append([x, y])
-        s_ls.append([[x, y], b, d])
-    while m > 0:
-        m -= 1
-        fin_ls = []
+        x, y, su, d = list(map(int, input().split()))
+        d -= 1
+        bd[x][y].append([su, d])
+        q.append([x,y])
+    for i in range(m):
         for i in range(len(q)):
-            a = s_ls.pop(0)
-            q.pop()
-            move(a)
-        merge(col)
-    print(s_ls)
+            x,y = q.pop(0)
+            su, d = bd[x][y].pop(0)
+            dx, dy = di[d]
+            X = x+dx
+            Y = y+dy
+            if 0 < X < n-1 and 0 < Y < n-1:
+                if len(bd[X][Y]) == 0:
+                    bd[X][Y].append([su, d])
+                    if [X,Y] not in q:
+                        q.append([X,Y])
+                else:
+                    bd[X][Y].append([su,d])
+                    if [X,Y] not in merge:
+                        merge.append([X,Y])
+            elif X == 0 or X == n-1 or Y == 0 or Y == n-1:
+                su //= 2
+                if d == 0:
+                    d = 1
+                elif d == 1:
+                    d = 0
+                elif d == 2:
+                    d = 3
+                elif d == 3:
+                    d = 2
+                bd[X][Y].append([su,d])
+                if [X,Y] not in q:
+                    q.append([X,Y])
+        while merge:
+            x,y = merge.pop(0)
+            bd[x][y].sort(key=lambda x:x[0],reverse=True)
+            rs, d = bd[x][y].pop(0)
+            while bd[x][y]:
+                rs += bd[x][y].pop()[0]
+            bd[x][y].append([rs, d])
+            if [x,y] not in q:
+                q.append([x,y])
+    while q:
+        x,y = q.pop(0)
+        rs_fin += bd[x][y][0][0]
+
+    print('#{}'.format(T+1), rs_fin)

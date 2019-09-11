@@ -1,31 +1,24 @@
-bd = [[0]*n for i in range(n)]
-cross = [(1,1), (-1,1), (1,-1), (-1,-1)]
-def pick(i, ls):
-    global n, count
-    if i > n:
-        count += 1
-        return
-    for j in range(n):
-        if bd[i][j] == 0:
-            nls = ls
-            for x in range(n):
-                nls[x][j] = 1
-            for y in range(n):
-                nls[i][y] = 1
-            for dx, dy in cross:
-                while True:
-                    i += dx
-                    j += dy
-                    if 0 <= X < n and 0 <= Y < n:
-                        nls[X][Y] = 1
-                    else :
-                        break
-            pick(i+1, nls)
-
-
-
+def nqueen(ls, n):
+    global cnt
+    if len(ls) == n:
+        cnt += 1
+        return 0
+    s = [i for i in range(n)]
+    for i in range(len(ls)):
+        if ls[i] in s:
+            s.remove(ls[i])
+        check = len(ls) - i
+        if ls[i] + check in s:
+            s.remove(ls[i]+check)
+        if ls[i] - check in s:
+            s.remove(ls[i]-check)
+    if s:
+        for i in s:
+            ls.append(i)
+            nqueen(ls, n)
+            ls.pop()
 for T in range(int(input())):
     n = int(input())
-    count = 0
-    for i in range(n):
-        pick(i)
+    cnt = 0
+    nqueen([], n)
+    print('#{} {}'.format(T+1, cnt))
