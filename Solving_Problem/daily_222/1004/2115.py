@@ -16,6 +16,7 @@ def perm(i=0,j=0,ls=[]):
                 j = 0
                 break
 
+
 def opti(ls,x=0,rs=0,sel=0,vis=[]):
     global sel_pr, tt
     if tt < sel:
