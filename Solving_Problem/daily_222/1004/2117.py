@@ -19,9 +19,6 @@ for t in range(int(input())):
     n,m = map(int,input().split())
     bd = [list(map(int,input().split())) for i in range(n)]
     # 운영비용 = k*k+(k-1)*(k-1)
-    pri_set = [0]*22
-    for k in range(1,22):
-        pri_set[k] = (k*k)+((k-1)*(k-1))
     mx_hm = 0
     for x in range(n):
         for y in range(n):
