@@ -1,62 +1,66 @@
-near = [[0,1],[1,0],[1,1],[-1,0],[0,-1],[-1,-1],[1,-1],[-1,1]]
+from collections import deque
+from heapq import heappop,heappush
 
-def spring():
-    for i in range(len(q)-1,-1,-1):
-        x,y,z = q.pop(i)
-        if bd[x][y] >= z:
-            bd[x][y] -= z
-            q.append([x,y,z+1])
-        else:
-            death.append([x,y,z])
+near = [[-1,0],[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1],[-1,-1]]
 
+def year():
+    spr()
+    sm()
+    f()
+    wt()
 
-def summer():
-    for i in range(len(death)-1,-1,-1):
-        x,y,z = death.pop(i)
-        bd[x][y] += z//2
-
-
-def fall():
-    for i in range(len(q)):
-        x,y,z = q[i]
-        if z % 5 == 0:
-            for dx, dy in near:
-                xi = x+dx
-                yi = y+dy
-                if 0 <= xi < n and 0 <= yi < n:
-                    q.append([xi, yi, 1])
+def spr():
+    for x in range(1,n+1):
+        for y in range(1,n+1):
+            for j in range(len(bd[x][y])):
+                z = bd[x][y].popleft()
+                if c_bd[x][y] >= z:
+                    c_bd[x][y] -= z
+                    bd[x][y].append(z+1)
+                else:
+                    dethree.append([x,y,z])
 
 
-def winter():
-    for x in range(n):
-        for y in range(n):
-            bd[x][y] += A[x][y]
+def sm():
+    for i in range(len(dethree)):
+        x,y,z = dethree.popleft()
+        c_bd[x][y] += z//2
+    
+
+def f():
+    for x in range(1,n+1):
+        for y in range(1,n+1):
+            for j in range(len(bd[x][y])):
+                if bd[x][y][j] % 5 == 0:
+                    for a,b in near:
+                        xi,yi = x+a, y+b
+                        if 0 < xi <= n and 0 < yi <= n:
+                            bd[xi][yi].appendleft(1)
+    
+
+def wt():
+    for x in range(1,n+1):
+        for y in range(1,n+1):
+            c_bd[x][y] += a_bd[x][y]
 
 
 
 n,m,k = map(int,input().split())
-bd = [[5]*n for i in range(n)]
-A = [list(map(int,input().split())) for i in range(n)]
-q = []
-death = []
-q.sort(key=lambda x: x[2])
+a_bd = [[0]*(n+1)]
+for i in range(n):
+    a_bd.append([0]+list(map(int,input().split())))
+dethree = deque()
+bd = [[deque() for i in range(n+1)] for i in range(n+1)]
+c_bd = [[5]*(n+1) for i in range(n+1)]
 for i in range(m):
     x,y,z = map(int,input().split())
-    q.append([x-1,y-1,z])
-for tk in range(k):
-    spring()
-    summer()
-    fall()
-    winter()
-    q.sort(key=lambda x: x[2])
-print(len(q))
+    bd[x][y].append(z)
 
-# 5 2 7
-# 2 3 2 3 2
-# 2 3 2 3 2
-# 2 3 2 3 2
-# 2 3 2 3 2
-# 2 3 2 3 2
-# 2 1 3
-# 3 2 3
-# ans 71
+for i in range(k):
+    year()
+rs = 0
+for x in range(1,n+1):
+    for y in range(1,n+1):
+        rs += len(bd[x][y])
+
+print(rs)
