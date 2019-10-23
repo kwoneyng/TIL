@@ -1,44 +1,38 @@
-def perm(ls=[]):
-    if len(ls) == k:
-        perm_set.append(ls)
-        return
-    for i in range(k):
-        if i not in ls:
-            perm(ls+[i])
+def bcg(x,y,leng):
+    global cnt, paper
+    if cnt[leng] == 0:
+        return 0
+    for a in range(x,x+leng):
+        for b in range(y,y+leng):
+            if bd[a][b] == 0:
+                return 0
+    for a in range(x,x+leng):
+        for b in range(y,y+leng):
+            bd[a][b] = 0
+            paper -= 1
+    cnt[leng] -= 1
+    return 1
 
-def rotate(r,c,s,bd):
-    for i in range(s,0,-1):
-        temp = bd[r-i][c-i]
-        for y in range(c-i,c+i):
-            temp, bd[r-i][y+1] = bd[r-i][y+1], temp
-        for x in range(r-i,r+i):
-            temp, bd[x+1][c+i] = bd[x+1][c+i],temp
-        for y in range(c+i,c-i,-1):
-            temp, bd[r+i][y-1] = bd[r+i][y-1], temp
-        for x in range(r+i,r-i,-1):
-            temp, bd[x-1][c-i] = bd[x-1][c-i], temp
+def go(sx,sy,obd):
+    bd = [i[:] for i in obd]
+    for i in range(5):
+        if bcg(sx,sy,i) == 1:
+            for x in range(sx,10):
+                for y in range(10):
+                    if bd[x][y] == 1:
+                        go(x,y,bd)
+            
 
 
-from collections import deque
-n,m,k = map(int,input().split())
-obd = deque([[0]*(m+1)])
-for i in range(n):
-    obd.append([0]+list(map(int,input().split())))
-data = deque()
-mn = 99999
-perm_set = deque()
-perm()
-for i in range(k):
-    data.append(list(map(int,input().split())))
+bd=[list(map(int, input().split())) for i in range(10)]
+cnt = [5]*5
+paper = 0
+sx,sy = -1, -1
+for x in range(10):
+    for y in range(10):
+        if bd[x][y] == 1:
+            if sx == -1:
+                sx,sy = x,y
+            paper += 1
 
-for i in perm_set:
-    bd=[i[:] for i in obd]
-    for j in i: 
-        r,c,s = data[j]
-        rotate(r,c,s,bd)
-        for k in bd[1:]:
-            rs = sum(k)
-            if rs < mn:
-                mn = rs
-print(mn)
-
+go(sx,sy,bd)
