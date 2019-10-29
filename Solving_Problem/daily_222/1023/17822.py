@@ -50,6 +50,8 @@ for x,d,k in data:
     rotate(x,d,k)
     find()
     if flag == 0:
+        if su == 0:
+            break
         mid = total/su
         for i in range(1,n+1):
             for j in range(m):

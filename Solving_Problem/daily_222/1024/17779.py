@@ -1,88 +1,54 @@
 from collections import deque
 
-def select(x,y,d1,d2):
+def selection(x,y,d1,d2):
+    global mn
     vis = [[0]*n for i in range(n)]
-    q = deque()
     rs = 0
-    vis[x][y] = 1
-    rs += bd[x][y]
-    q.append([x,y])
-    vis[x+d2][y+d2] = 1
-    rs += vis[x+d2][y+d2]
-    vis[x-d1][y+d1] = 1
-    rs += vis[x-d1][y+d1]
-    vis[x-d1+d2][y+d1+d2] = 1
-    rs += vis[x-d1+d2][y+d1+d2]
-
-    while True:
-        x += 1
-        y += 1
-        if vis[x][y] == 0:
-            rs += bd[x][y]
-            vis[x][y] = 1
-            q.append([x,y])
-        else:
-            break
-    while True:
-        x -= 1
-        y += 1
-        if vis[x][y] == 0:
-            vis[x][y] = 1
-            rs += bd[x][y]
-        else:
-            break
-    while True:
-        x -= 1
-        y -= 1
-        if vis[x][y] == 0:
-            vis[x][y] = 1
-            rs += bd[x][y]
-        else:
-            break
-    while True:
-        x += 1
-        y -= 1
-        if vis[x][y] == 0:
-            vis[x][y] = 1
-            q.append([x,y])
-            rs += bd[x][y]
-        else:
-            break
-    
-    for x,y in q:
-        while True:
-            y += 1
-            if vis[x][y] == 0:
-                vis[x][y] = 1
-                rs += bd[x][y]
-            else:
-                break
-    for i in vis:
-        print(i)
-    print("-------")
+    for i in range(n):
+        for j in range(n):
+            if x+y <= i+j <= x+y+d2*2 and x-y-d1*2 <= i-j <= x-y:
+                vis[i][j] = 1
+                rs += bd[i][j]
     dp[4] = rs
+    rs = 0
     for i in range(x):
-        for j in range(y+1):
-    for i in range(x+1):
-        for j in range(y+1,n):
+        for j in range(y+d1+1):
+            if vis[i][j] == 0:
+                rs += bd[i][j]
+    dp[0] = rs
+    rs = 0
     for i in range(x,n):
-        for j in range(y):
-    for i in range(x+1,n):
-        for j in range():
+        for j in range(y+d2):
+            if vis[i][j] == 0:
+                rs += bd[i][j]
+    dp[2] = rs
+    rs = 0
+    for i in range(x-d1+d2+1):
+        for j in range(y+d1+1,n):
+            if vis[i][j] == 0:
+                rs += bd[i][j]
+    dp[1] = rs
+    rs = 0
+    for i in range(x-d1+d2+1,n):
+        for j in range(y+d2,n):
+            if vis[i][j] == 0:
+                rs += bd[i][j]
+    dp[3] = rs
+    rs = max(dp) - min(dp)
+    if mn > rs :
+        mn = rs
+
 
 
 
 n = int(input())
 bd = [list(map(int,input().split())) for i in range(n)]
-
-d_set = deque()
-for i in range(1,n-1):
-    for j in range(1,n-1):
-        d_set.append([i,j])
-
+mn = 999999999999999999999
 dp = [0]*5
-for d1,d2 in d_set:
-    for x in range(n):
-        for y in range(n):
-            if x-d1 >= 0 and x+d2 < n and y+d1+d2 < n:
-                select(x,y,d1,d2)
+for d1 in range(1,n):
+    for d2 in range(1,n):
+        for x in range(1,n):
+            for y in range(1,n):
+                if y+d1+d2 < n and x-d1 >= 0 and x+d2 < n:
+                    selection(x,y,d1,d2)
+print(mn)
