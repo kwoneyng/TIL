@@ -1,6 +1,24 @@
 near = [[-1,0],[0,1],[1,0],[0,-1]]
 from collections import deque
 
+def check(flag,su):
+    if flag == 0:
+        if su != 0:
+            mid = total / su 
+            for x in range(n):
+                for y in range(m):
+                    if 0 < bd[x][y] < mid:
+                        bd[x][y] += 1
+                    elif bd[x][y] > mid:
+                        bd[x][y] -= 1
+
+
+def debug():
+    for i in bd:
+        print(i)
+    print('---------')
+    print(f'total : {total}, su : {su}, flag : {flag}')
+
 def rotate(x,d,k):
     for i in range(1,n+1):
         if i % x == 0:
@@ -23,7 +41,7 @@ def find():
                 su += 1
             for a,b in near:
                 xi, yi = x+a,y+b
-                if 0 <= xi < n and 0 <= yi < n:
+                if 0 <= xi < n and 0 <= yi < m:
                     if bd[x][y] == bd[xi][yi] and bd[x][y] > 0:
                         ls.append([x,y])
         if bd[x][0] == bd[x][m-1] and bd[x][0] != 0:
@@ -45,16 +63,11 @@ for x,d,k in data:
     total = 0
     su = 0
     rotate(x,d,k)
+    # debug()
     find()
-    if flag == 0:
-        if su != 0:
-            mid = total / su 
-            for x in range(n):
-                for y in range(m):
-                    if 0 < bd[x][y] < mid:
-                        bd[x][y] += 1
-                    elif bd[x][y] > mid:
-                        bd[x][y] -= 1
+    # debug()
+    check(flag,su)
+
 rs = 0
 if su == 0:
     print(0)
