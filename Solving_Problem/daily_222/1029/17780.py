@@ -1,77 +1,99 @@
-from collections import deque
-direct = [[],[0,1],[0,-1],[-1,0],[1,0]]
+di = [[],[0,1],[0,-1],[-1,0],[1,0]]
+def move(j):
+    x,y = ht[j]
+    if x < 0 :
+        return
+    else:
+        idx, d = bd[x][y][0]
+        temp = bd[x][y][:]
+        bd[x][y] = []
+        dx,dy = di[d]
+        xi,yi = x+dx, y+dy
+        if 0 <= xi < n and 0 <= yi < n:
+            if color[xi][yi] == 0:
+                white(xi,yi,temp)
+            elif color[xi][yi] == 1:
+                ht[idx] = [-1,-1]
+                red(xi,yi,temp)
+            elif color[xi][yi] == 2:
+                blue(x,y,d,temp)
+        else:
+            blue(x,y,d,temp)
+
+def white(x,y,temp):
+    idx = temp[0][0]
+    if bd[x][y]:
+        ht[idx] = [-1,-1]
+    else:
+        ht[idx] = [x,y]
+    bd[x][y].extend(temp)
+
+
+def red(x,y,temp):
+    temp.reverse()
+    idx = temp[0][0]
+    if not bd[x][y]:
+        ht[idx] = [x, y]
+    bd[x][y].extend(temp)
+
+def blue(x,y,d,temp):
+    if d == 1:
+        d = 2
+    elif d == 2:
+        d = 1
+    elif d == 3:
+        d = 4
+    elif d == 4:
+        d = 3
+    temp[0][1] = d
+    idx = temp[0][0]
+    dx, dy = di[d]
+    xi, yi = x+dx, y+dy
+    if 0 <= xi < n and 0 <= yi < n:
+        if color[xi][yi] == 0:
+            white(xi,yi,temp)
+        elif color[xi][yi] == 1:
+            ht[idx]=[-1,-1]
+            red(xi,yi,temp)
+        else:
+            white(x,y,temp)
+    else:
+        white(x,y,temp)
 
 def debug():
-    for i in bdu:
+    print('--------')
+    print(f'j = {j}')
+    print(ht)
+    for i in bd:
         print(i)
-    print('--------------')
 
-def move(x,y,d):
-    global stop
-    temp = bdu[x][y][:]
-    bdu[x][y] = []
-    dx, dy = direct[d]
-    xi,yi = x+dx,y+dy
-    if 0 <= xi < n and 0 <= yi < n:
-        if bdc[xi][yi] == 0:
-            if not bdu[xi][yi]:
-                q.append([xi,yi])
-            bdu[xi][yi].extend(temp)
-            if len(bdu[xi][yi]) >= 4:
-                stop = 1
-        elif bdc[xi][yi] == 1:
-            if not bdu[xi][yi]:
-                q.append([xi,yi])
-            temp.reverse()
-            bdu[xi][yi].extend(temp)
-            if len(bdu[xi][yi]) >= 4:
-                stop = 1
-        elif bdc[xi][yi] == 2:
-            if d == 1:
-                temp[0] = 2
-            elif d == 2:
-                temp[0] = 1
-            elif d == 3:
-                temp[0] = 4
-            elif d == 4:
-                temp[0] = 3
-            dx,dy = direct[temp[0]]
-            xi,yi = x+dx, y+dy
-            if 0 <= xi < n and 0 <= yi < n and bdc[xi][yi] != 2:
-                if not bdu[xi][yi]:
-                    q.append([xi,yi])
-                bdu[xi][yi].extend(temp)
-            else :
-                bdu[x][y].extend(temp)
-    else:
-        if d == 1:
-            temp[0] = 2
-        elif d == 2:
-            temp[0] = 1
-        elif d == 3:
-            temp[0] = 4
-        elif d == 4:
-            temp[0] = 3
-        bdu[x][y].extend(temp)
-        
+def stop():
+    for i in range(k):
+        x,y = ht[i]
+        if bd[x][y]:
+            if len(bd[x][y]) >= 4:
+                return 1
+
 
 
 n,k = map(int,input().split())
-bdc = [list(map(int,input().split())) for i in range(n)]
-bdu = [[[] for i in range(n)] for i in range(n)]
-data = []
-q = deque()
+color = [list(map(int,input().split())) for i in range(n)]
+bd = [[[] for i in range(n)] for i in range(n)]
+ht = {}
 for i in range(k):
     x,y,d = list(map(int,input().split()))
-    x -= 1
-    y -= 1
-    bdu[x][y].append(d)
-    q.append([x,y])
-stop = 0
-debug()
-for t in range(1,1001):
-    for i in range(len(q)):
-        x,y = q.popleft()
-        d = bdu[x][y][0]
-        move(x,y,d)
-        debug()
+    x-=1
+    y-=1
+    bd[x][y].append([i,d])
+    ht[i] = [x,y]
+
+for i in range(1,1001):
+    for j in range(k):
+        move(j)
+    if stop() == 1:
+        print(i)
+        break
+else:
+    print(-1)
+
+
