@@ -1,29 +1,26 @@
 from collections import deque
-mals = {
-    0 : 0,
-    1 : 0,
-    2 : 0,
-    3 : 0,
-}
-def perm(ls=[]):
-    if len(ls) == 10:
-        perm_set.append(ls)
-        return 
-    for i in range(4):
-        perm(ls+[i])
 
-def move(mal, su):
-    global rs
-    idx = mals[mal]
-    n_idx = start[idx][su]
-    if vis[n_idx] == 0:
-        mals[mal] = n_idx
-        vis[n_idx] = 1
-        vis[idx] = 0
-        rs += start[n_idx][0]
-    vis[32] = 0
+def game(rs=0,cnt=0):
+    global mx
+    if cnt == 10:
+        mx = max(rs,mx)
+        return
+    num = data[cnt]
+    for i in range(32):
+        if vis[i] > 0 :
+            nxt = start[i][num]
+            if vis[nxt]:
+                 continue
+            else:
+                vis[i] -= 1
+                if nxt == 32:
+                    game(rs, cnt+1)
+                else:
+                    vis[nxt] += 1
+                    game(rs+start[nxt][0],cnt+1)
+                    vis[nxt] -= 1
+                vis[i] += 1
 
-perm_set = deque()
 start = [
     [0,1,2,3,4,5],
     [2,2,3,4,5,9],
@@ -60,16 +57,8 @@ start = [
     [0,32,32,32,32,32]
 ]
 data = list(map(int,input().split()))
-perm()
+vis = [0]*33
+vis[0] = 4
 mx = 0 
-for i in perm_set:
-# i = [0, 0, 0, 1, 1, 1, 2, 2, 2, 3]
-    rs = 0
-    vis=[0]*33
-    for k in range(4):
-        mals[k] = 0
-    for j in range(10):
-        move(i[j],data[j])
-    if rs > mx:
-        mx = rs
+game()
 print(mx)
