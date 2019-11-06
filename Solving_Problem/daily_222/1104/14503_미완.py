@@ -1,5 +1,5 @@
 def clean(x,y):
-    bd[x,y] = 2
+    bd[x][y] = 2
 
 
 n,m = map(int, input().split())
