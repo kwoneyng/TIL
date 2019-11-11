@@ -3,7 +3,7 @@ def catch():
     target = 0
     depth = 200
     size = 0
-    for i in range(m):
+    for i in range(1,m+1):
         if ht[i][1] == man:
             if depth > ht[i][0]:
                 target = i
@@ -13,15 +13,15 @@ def catch():
                 if size < ht[i][2]:
                     target = i
                     size = ht[i][2]
-    x,y,s,d,z = ht[target]
-    if z > 0:
+    if target > 0:
+        x,y,s,d,z = ht[target]
         rs += z
-    bd[x][y] = 0
-    ht[target] = [-1,-1,-1,-1,-1]
+        bd[x][y] = 0
+        ht[target] = [-1,-1,-1,-1,-1]
     
 def move():
     vis = [[0]*c for i in range(r)]
-    for i in range(m):
+    for i in range(1,m+1):
         if ht[i][0] > -1:
             x,y,s,d,z = ht[i]
             if d == 1:
@@ -56,7 +56,10 @@ def move():
                     y = abs(y-s)
                 else :
                     y = abs(y-s+(c-1)*2)
-            if ht[vis[x][y]][4] < z:
+            if vis[x][y] == 0 :
+                vis[x][y] = i
+                ht[i] = [x,y,s,d,z]
+            elif ht[vis[x][y]][4] < z:
                 ht[vis[x][y]] = [-1,-1,-1,-1,-1]
                 vis[x][y] = i
                 ht[i] = [x,y,s,d,z]
@@ -75,7 +78,7 @@ r,c,m = map(int,input().split())
 bd = [[0]*c for i in range(r)]
 ht = {}
 rs = 0
-for i in range(m):
+for i in range(1,m+1):
     x,y,s,d,z = list(map(int,input().split()))
     x-=1
     y-=1
