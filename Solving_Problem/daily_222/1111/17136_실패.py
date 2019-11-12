@@ -8,6 +8,7 @@ def one(x,y,temp,use):
     chk -= 1
     if chk == 0:
         min_use = min(use,min_use)
+        return
 
     search(temp,x,use)
     use -= 1
@@ -31,7 +32,7 @@ def two(x,y,temp,use):
     paper[1] -= 1
     if chk == 0:
         min_use = min(min_use,use)
-
+        return
     search(temp,x,use)
     use -= 1
     paper[1] += 1
@@ -57,6 +58,7 @@ def thr(x,y,temp,use):
     paper[2] -= 1
     if chk == 0:
         min_use = min(min_use,use)
+        return
     search(temp,x,use)
     use -= 1
     paper[2] += 1
@@ -81,6 +83,7 @@ def four(x,y,temp,use):
     paper[3] -= 1
     if chk == 0:
         min_use = min(min_use, use)
+        return
     search(temp,x,use)
     use -= 1
     paper[3] += 1
@@ -105,6 +108,7 @@ def five(x,y,temp,use):
     paper[4] -= 1
     if chk == 0:
         min_use = min(min_use,use)
+        return
     search(temp,x,use)
     use -= 1
     paper[4] += 1
@@ -117,6 +121,8 @@ func = [five,four,thr,two,one]
 
 def search(bd,sx=0,use=0):
     global min_use
+    if use >= min_use:
+        return
     if chk == 0:
         min_use = min(use,min_use)
     temp = bd
