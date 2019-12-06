@@ -1,33 +1,26 @@
 from heapq import heappop, heappush
 
-def go(st,ed):
-    q=[]
-    heappush(q,[0,st])
-    cst = [9999999999]*n
-    while q:
-        val, node = heappop(q)
-        if node == ed:
-            cost[st][ed] = val
-            return
-        for nxt_val, nxt in nxt_ls[node]:
-            to_val = val + nxt_val
-            if cst[nxt] > to_val:
-                heappush(q,[to_val,nxt])
-                cst[nxt] = to_val
-
 n = int(input())
-bd = [list(map(int,input().split())) for i in range(n)]
-nxt_ls = [[]for i in range(n)]
-for x in range(n):
-    for y in range(n):
-        if bd[x][y] > 0:
-            nxt_ls[x].append([bd[x][y],y])
-print(nxt_ls)
-cost = [[0]*n for i in range(n)]
-vis = [0]*n
-for x in range(n):
-    for y in range(n):
-        go(x,y)
-
-for i in cost:
-    print(i)
+path = [0]*(1000002)
+for i in range(n):
+    a,b = map(int,input().split())
+    path[a] = b
+l,p = map(int,input().split())
+cnt = 0
+q = []
+for i in range(1,l+1):
+    p -= 1
+    if p < 0:
+        while q:
+            p -= heappop(q)
+            cnt += 1
+            if p >= 0:
+                break
+        else:
+            if p < 0:
+                print(-1)
+                break
+    if path[i] > 0:
+        heappush(q,-path[i])
+else:
+    print(cnt)
