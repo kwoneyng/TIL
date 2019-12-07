@@ -39,9 +39,6 @@ class Player:
     def draw(self, screen):
         draw_block(screen, self.color, self.position)
 
-    # def move(self):
-    #     x, y = self.position
-    #     if self
 
 class Castle:
     color = black
@@ -66,7 +63,6 @@ class Block:
             draw_block(screen, self.color, position)
 
 
-
 class GameBoard:
     width = 52
     height = 34
@@ -75,14 +71,22 @@ class GameBoard:
         self.player = Player()
         self.castle = Castle()
         self.block = Block()
+        self.arrows = Arrows()
 
     def draw(self, screen):
         self.player.draw(screen)
         self.castle.draw(screen)
         self.block.draw(screen)
+        self.arrows.draw(screen)
 
+class Arrows:
+    color = white
+    def __init__(self):
+        self.stats = []
 
-
+    def draw(self, screen):
+        for pal, x, y in self.stats:
+            draw_block(screen, self.color, (y,x))
 
 #--------------------------------------------------------------
 
@@ -93,7 +97,8 @@ moveRight = False
 moveUp = False
 moveDown = False
 MOVESPEED = 0.1
-
+acc = [0,0]
+arrows = []
 
 while True:
     time.sleep(0.005)
@@ -126,10 +131,23 @@ while True:
         if event.type == pygame.MOUSEMOTION:
             position = (event.pos[1]//BLOCK_SIZE, event.pos[0]//BLOCK_SIZE)
             # print('움직이는중')
-            game_board.block.positions.append(position)
+            # game_board.block.positions.append(position)
         if event.type == pygame.MOUSEBUTTONDOWN:
+            position = pygame.mouse.get_pos()
+            acc[1] += 1
+            game_board.arrows.stats.append([math.atan2(position[0]-game_board.player.position[0], position[1]-game_board.player.position[1]),game_board.player.position[1], game_board.player.position[0]])
             print('눌렀다', position)
-            print(event.button)
+            print(arrows)
+
+    for bullet in game_board.arrows.stats:
+        index = 0
+        velx=math.cos(bullet[0])*1
+        vely=math.sin(bullet[0])*1
+        bullet[1] += velx
+        bullet[2] += vely
+        if bullet[1] < 6 or bullet[1] > game_board.width or bullet[0] < 0 or bullet[0] > game_board.height:
+            game_board.arrows.stats.pop(index)
+        index += 1
 
     if moveDown and game_board.player.position[0]+1 < game_board.height:
         game_board.player.position[0] += MOVESPEED

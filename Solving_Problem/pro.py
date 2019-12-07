@@ -1,7 +1,4 @@
-print(int(1.5))
+import math
+p = math.atan(1)
 
-int(1.6)
-2 3.2 
-
-1.4 = 2.8
-2 - 1
+print(math.degrees(p))
