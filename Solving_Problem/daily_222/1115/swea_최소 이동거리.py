@@ -15,4 +15,3 @@ from heapq import heappush, heappopfor t in range(1, int(input())+1):
                 heappush(q,[dist[nxt], nxt])
     print(f'#{t} {dist[n]}')
             
-

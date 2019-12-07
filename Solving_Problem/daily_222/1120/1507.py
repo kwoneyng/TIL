@@ -1,33 +1,31 @@
-from heapq import heappop, heappush
-
-def go(st,ed):
-    q=[]
-    heappush(q,[0,st])
-    cst = [9999999999]*n
-    while q:
-        val, node = heappop(q)
-        if node == ed:
-            cost[st][ed] = val
-            return
-        for nxt_val, nxt in nxt_ls[node]:
-            to_val = val + nxt_val
-            if cst[nxt] > to_val:
-                heappush(q,[to_val,nxt])
-                cst[nxt] = to_val
-
 n = int(input())
 bd = [list(map(int,input().split())) for i in range(n)]
-nxt_ls = [[]for i in range(n)]
-for x in range(n):
-    for y in range(n):
-        if bd[x][y] > 0:
-            nxt_ls[x].append([bd[x][y],y])
-print(nxt_ls)
-cost = [[0]*n for i in range(n)]
-vis = [0]*n
-for x in range(n):
-    for y in range(n):
-        go(x,y)
+can = [[1]*n for i in range(n)]
 
-for i in cost:
-    print(i)
+rs = 0
+
+for k in range(n):
+    for x in range(n):
+        for y in range(n):
+            if x != k and y != k and x != y:
+                if bd[x][y] == bd[x][k] + bd[k][y]:
+                    can[x][y] = 0
+                elif bd[x][y] > bd[x][k] + bd[k][y]:
+                    rs = -1
+        else:
+            continue
+        break
+    else:
+        continue
+    break
+# for i in can:
+#     print(i)
+
+if rs == 0:
+    for x in range(n):
+        for y in range(x,n):
+            if can[x][y] == 1:
+                rs += bd[x][y]
+    print(rs)
+else:
+    print(rs)
