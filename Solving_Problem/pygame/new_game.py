@@ -95,6 +95,17 @@ class Shots:
         for damage, pal, y, x in self.stats:
             draw_block(screen, self.color, (y,x), (self.size, self.size))
 
+class Shield:
+    color = blue
+    def __init__(self):
+        self.size = 30
+        self.visible = 0
+        self.position = [0,0]
+
+    def draw(self, screen):
+        if self.visible == 1:
+            draw_block(screen, self.color, (self.position[0],self.position[1]), (self.size, 5))
+
 
 class StatBar:
     color = gray
@@ -117,6 +128,7 @@ class GameBoard:
         self.enms = Enermies()
         self.shots = Shots()
         self.sb = StatBar()
+        self.sd = Shield()
 
     def draw(self, screen):
         self.player.draw(screen)
@@ -124,6 +136,8 @@ class GameBoard:
         self.enms.draw(screen)
         self.shots.draw(screen)
         self.sb.draw(screen)
+        self.sd.draw(screen)
+
 # class end -----------------------------------------------------------
 
 bd = GameBoard()
@@ -134,6 +148,12 @@ while True:
         if cur_enermies < 5:
             bd.enms.stats.append([10, random()*bd.height-bd.enms.size, bd.width-5,0])
             cur_enermies += 1
+    print(bd.sd.visible)
+    print(bd.sd.position)
+    if bd.sd.visible:
+        draw_block(screen, blue, bd.sd.position, (30, 5))
+    # 방패 위치 갱신
+    bd.sd.position = [bd.player.position[0]-5, bd.player.position[1]+25]
     # event 처리 ----------------------------------------------------
     events = pygame.event.get()
     for event in events:
@@ -148,11 +168,17 @@ while True:
                 bd.player.rspd = -bd.player.palyer_spd
             if event.key == K_DOWN or event.key == ord('s'):
                 bd.player.rspd = bd.player.palyer_spd
+            if event.key == event.key == ord('e'):
+                bd.sd.visible = 1
+
         if event.type == pygame.KEYUP:
             if event.key == K_LEFT or event.key == ord('a') or event.key == K_RIGHT or event.key == ord('d'):
                 bd.player.cspd = 0
             if event.key == K_UP or event.key == ord('w') or event.key == K_DOWN or event.key == ord('s'):
                 bd.player.rspd = 0
+            if event.key == event.key == ord('e'):
+                bd.sd.visible = 0
+            
         if event.type == MOUSEMOTION:
             position = pygame.mouse.get_pos() # get_pos = x,y 순서대로 나온다
 
@@ -179,7 +205,7 @@ while True:
     # enermy 이동
     for i in range(len(bd.enms.stats)):
         hp, y, x, delay = bd.enms.stats.pop(0)
-        if hp < 1:
+        if hp < 1 or y < 100 or y > 800:
             cur_enermies -= 1
             continue
         else:
