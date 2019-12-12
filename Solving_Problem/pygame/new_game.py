@@ -129,10 +129,11 @@ class GameBoard:
 bd = GameBoard()
 cur_enermies = 0
 while True:
+    time.sleep(0.005)
     # 적 생성
     if random() < 0.002:
         if cur_enermies < 5:
-            bd.enms.stats.append([10, random()*bd.height-bd.enms.size, bd.width-5,0])
+            bd.enms.stats.append([10, random()*bd.height+100, bd.width-5,0])
             cur_enermies += 1
     # event 처리 ----------------------------------------------------
     events = pygame.event.get()
@@ -167,7 +168,7 @@ while True:
         if bd.player.position[0]+bd.player.size < bd.height:
             bd.player.position[0] += bd.player.rspd
     elif bd.player.rspd < 0:
-        if bd.player.position[0] > 0:
+        if bd.player.position[0] > 100:
             bd.player.position[0] += bd.player.rspd
     if bd.player.cspd > 0:
         if bd.player.position[1]+bd.player.size < bd.width:
@@ -175,12 +176,14 @@ while True:
     elif bd.player.cspd < 0:
         if bd.player.position[1] > 200:
             bd.player.position[1] += bd.player.cspd
-
+    print(bd.enms.stats)
+    print('------------')
     # enermy 이동
     for i in range(len(bd.enms.stats)):
         hp, y, x, delay = bd.enms.stats.pop(0)
-        if hp < 1:
+        if hp < 1 or y > 800:
             cur_enermies -= 1
+            print('사망', bd.enms.stats)
             continue
         else:
             if x > 200:
