@@ -98,7 +98,7 @@ class Shots:
 class Shield:
     color = blue
     def __init__(self):
-        self.size = 30
+        self.size = 31
         self.visible = 0
         self.position = [0,0]
 
@@ -149,8 +149,6 @@ while True:
         if cur_enermies < 5:
             bd.enms.stats.append([10, random()*bd.height+100, bd.width-5,0])
             cur_enermies += 1
-    print(bd.sd.visible)
-    print(bd.sd.position)
     if bd.sd.visible:
         draw_block(screen, blue, bd.sd.position, (30, 5))
     # 방패 위치 갱신
