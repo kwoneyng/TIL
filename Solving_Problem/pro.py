@@ -1,4 +1,9 @@
-import math
-p = math.atan(1)
+from collections    import deque
+def swp():
+    if len(a) < 2:
+        return 1
+    a[-1], a[-2] = a[-2], a[-1]
 
-print(math.degrees(p))
+a = deque([1,3])
+swp()
+print(a)
