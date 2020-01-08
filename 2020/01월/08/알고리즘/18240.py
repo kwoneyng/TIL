@@ -1,14 +1,15 @@
 def findtree():
     ht = {}
     for i in range(1,n):
-        if not ht.get(data[i]):
-            ht[data[i]] = [i]
+        if not ht.get(data[i-1]):
+            ht[data[i-1]] = [i]
         else:
-            ht[data[i]].append(i)
-
+            ht[data[i-1]].append(i)
+    return ht
 
 n = int(input())
 data = list(map(int,input().split()))
 ls = [0]*n
-findtree()
-maketree()
+ht = findtree()
+# maketree()
+print(ht)
