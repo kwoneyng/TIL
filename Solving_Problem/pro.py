@@ -1,3 +1,1 @@
-st = ''
-st += 'a'
-print(st)
+print(input())
