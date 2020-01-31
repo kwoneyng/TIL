@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+print(input())
+=======
 from heapq import heappop, heappush
 from pprint import pprint
 R, C, M = map(int, input().split())
@@ -113,3 +116,4 @@ while True:
     pprint(sharks)
     print(total)
     print('------------------------------------------------------------------------------')
+>>>>>>> 0963c32f6d9bc386793394f76a3532f9c83e6226
